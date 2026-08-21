@@ -1,0 +1,11 @@
+node_modules
+dist
+.DS_Store
+*.local
+
+# Local-only media and transcripts. Nothing copyrighted gets committed.
+/local/
+*.vtt
+*.srt
+*.mp4
+*.m4a
