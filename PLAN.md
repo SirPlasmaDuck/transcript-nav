@@ -76,4 +76,5 @@ Deliberately, so it can't be relitigated at 1am:
 One line per day: what actually got done, and the first thing to do next.
 This is the breadcrumb — it's what makes a cold start on Wednesday survivable.
 
-- **Mon 08-24** —
+- **Mon 08-24** — audited DECISIONS (4 can't-defends → resolved, cut the speaker-data one).
+  Broke and predicted main.tsx + App.tsx. Next: slice 1, transcript JSON shape.
