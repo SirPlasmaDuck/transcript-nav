@@ -1,7 +1,8 @@
-// Slice 0: a shell. No state, no data, no logic — on purpose.
-// This is a function that returns markup. That's all a React component is.
+import transcript from "./data/transcript.json";
+import { formatTime } from "./formatTime.ts";
 
 export default function App() {
+
   return (
     <div className="app">
       <header className="header">
@@ -18,10 +19,14 @@ export default function App() {
         </section>
 
         <section className="pane pane--transcript">
-          <div className="placeholder">
-            <span className="placeholder__label">transcript</span>
-            <span className="placeholder__note">slice 2</span>
-          </div>
+            <ol className="transcript">
+                {transcript.segments.map((segment) => (
+                    <li className="line" key={segment.start}>
+                        <span className="line__time">{formatTime(segment.start)}</span>
+                        <span className="line__text">{segment.text}</span>
+                    </li>
+                ))}
+            </ol>
         </section>
       </main>
 

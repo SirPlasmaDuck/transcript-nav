@@ -7,7 +7,7 @@ Runs locally on purpose -- see DECISIONS.md. YouTube blocks these endpoints
 from datacenter IPs, which is where this project deploys. So ingestion happens
 here, on a real machine, and the JSON it produces gets committed to the repo.
 
-To use it: edit the three settings below, run it, commit the JSON.
+To use it: edit the settings below, run it, commit the JSON.
 """
 
 import json
@@ -19,11 +19,17 @@ from youtube_transcript_api import YouTubeTranscriptApi
 # ---- settings -------------------------------------------------------------
 
 VIDEO_ID = "j3Pq35gm4qA"
-TITLE = "NASA’s Artemis II Daily News Conference (April 2, 2026)"
+TITLE = "NASA’s Artemis II Daily News Conference (April 2, 2026) "
 LICENSE = "Public domain - NASA"
 
 OUTPUT_FOLDER = "src/data"
 OUTPUT_FILE = "src/data/transcript.json"
+
+# A chunk gets cut off at this many seconds even mid-sentence, so one
+# rambling answer can't become a 90-second wall of text.
+MAX_CHUNK_SECONDS = 12
+
+SENTENCE_ENDINGS = (".", "?", "!")
 
 
 # ---- fetch ----------------------------------------------------------------
@@ -33,17 +39,71 @@ fetched = api.fetch(VIDEO_ID)
 
 
 # ---- reshape --------------------------------------------------------------
-# The library gives us objects. We want plain dictionaries, because those are
-# what json can write out. One dictionary per caption line.
+# Caption files break speech into 3-6 word DISPLAY lines, chopped wherever the
+# text hit the edge of the screen. Straight out of the API you get things like:
+#
+#     {'start': 15.02, 'text': '>> Good evening, and welcome to'}
+#     {'start': 16.45, 'text': "NASA's Johnson Space Center in"}
+#
+# That is unusable for search. A phrase can straddle two lines and match
+# neither of them, and a single line shown as a search result reads like
+# "this briefing. I would".
+#
+# So we glue consecutive lines back into sentence-sized chunks. A chunk ends
+# when its text reaches a sentence-ending mark, or when it has been running
+# longer than MAX_CHUNK_SECONDS. Broadcast captions write ">>" at a speaker
+# change, so that always starts a fresh chunk too.
+#
+# The chunk keeps the START time of its FIRST line -- clicking a search result
+# should drop you at the beginning of the sentence, not the middle.
+
+
+def make_chunk(start, words):
+    return {"start": round(start, 2), "text": " ".join(words)}
+
 
 segments = []
 
+chunk_start = None
+chunk_words = []
+
 for snippet in fetched.snippets:
-    one_line = {
-        "start": round(snippet.start, 2),
-        "text": snippet.text.strip(),
-    }
-    segments.append(one_line)
+    text = snippet.text.strip()
+
+    if text == "":
+        continue
+
+    new_speaker = text.startswith(">>")
+    if new_speaker:
+        text = text.lstrip(">").strip()
+        if text == "":
+            continue
+
+    running_too_long = (
+        chunk_start is not None
+        and snippet.start - chunk_start > MAX_CHUNK_SECONDS
+    )
+
+    # Close out the chunk in progress before starting a new one.
+    if chunk_words and (new_speaker or running_too_long):
+        segments.append(make_chunk(chunk_start, chunk_words))
+        chunk_words = []
+        chunk_start = None
+
+    if chunk_start is None:
+        chunk_start = snippet.start
+
+    chunk_words.append(text)
+
+    # A finished sentence is the natural place to stop.
+    if text.endswith(SENTENCE_ENDINGS):
+        segments.append(make_chunk(chunk_start, chunk_words))
+        chunk_words = []
+        chunk_start = None
+
+# Whatever was still being built when the transcript ran out.
+if chunk_words:
+    segments.append(make_chunk(chunk_start, chunk_words))
 
 
 # ---- assemble -------------------------------------------------------------
@@ -66,4 +126,4 @@ os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 with open(OUTPUT_FILE, "w", encoding="utf-8") as output_file:
     json.dump(data, output_file, indent=2, ensure_ascii=False)
 
-print("wrote " + str(len(segments)) + " segments to " + OUTPUT_FILE)
+print("wrote " + str(len(segments)) + " chunks to " + OUTPUT_FILE)

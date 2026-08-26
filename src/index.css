@@ -113,3 +113,45 @@ body {
   color: var(--muted);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
+
+/* ---- transcript list -----------------------------------------------------
+   The <ol> scrolls inside the pane rather than growing the page. That needs
+   both overflow-y and min-height: 0 -- a flex child defaults to min-height
+   auto, which refuses to shrink below its content and breaks the scroll. */
+
+.transcript {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  padding: 0.5rem 0;
+  list-style: none;
+  overflow-y: auto;
+}
+
+.line {
+  display: flex;
+  gap: 0.75rem;
+  align-items: baseline;
+  padding: 0.35rem 1rem;
+}
+
+.line:hover {
+  background: var(--surface);
+}
+
+.line__time {
+  flex: none;
+  min-width: 3.5rem;
+  text-align: right;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+  opacity: 0.85;
+}
+
+.line__text {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--text);
+}
