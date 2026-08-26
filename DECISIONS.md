@@ -41,10 +41,7 @@ features. The pipeline was proven while the stakes were zero.
 Optimizing before profiling means guessing. Measuring first means the fix has a
 before and an after attached to it.
 
-**Speaker data gets captured in the JSON even before anything renders it.**
-Data is cheap to carry and expensive to backfill. If the caption source has
-speaker labels, they go in the record now; the UI for them is a later slice and
-may never be worth building. Diarization is explicitly out of scope.
+
 
 ---
 

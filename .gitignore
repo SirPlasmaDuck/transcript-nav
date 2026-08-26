@@ -9,3 +9,9 @@ dist
 *.srt
 *.mp4
 *.m4a
+
+# Python virtual enviornment
+.venv/
+
+# Local-only test data
+*.local.json
