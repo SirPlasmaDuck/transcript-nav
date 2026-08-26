@@ -43,19 +43,27 @@ Safety net: `git status` clean before starting, `git checkout .` undoes it all.
 |---|---|---|---|
 | 0 | Shell UI, deployed empty | done | what a component is |
 | 1 | Transcript data in the repo | done | — |
-| 2 | Transcript renders on screen | **tonight** | props, `.map()`, `key` |
-| 3 | Video embeds + click a line to jump | Wed | `useRef`, `useEffect` |
+| 2 | Transcript renders on screen | done | props, `.map()`, `key` |
+| 3 | Video embeds + click a line to jump | **Wed/Thu** | `useRef` |
 | 4 | Search filters the transcript | Thu | `useState`, controlled inputs |
 | 5 | Highlight matches + result count | Fri | derived state |
 | 6 | Timeline markers (stretch) | Fri/Sat | — |
 | 7 | Mobile, empty states, README, gif | Sat | — |
-| 8 | Buffer | Sun | — |
+| 8 | Buffer, deploy check | Sun | — |
+| — | *Reserve — only if something broke* | Mon | — |
 
 **Slices 3 and 4 are the product.** Everything else is support. If the week
 goes badly, those two are what must exist by Sunday.
 
 Sunday is buffer, not work. Something breaks on Friday. Something always
 breaks on Friday.
+
+Running one day behind the original slotting as of Wed. Slices 3 and 4 still
+land by Friday, which is what matters; the slip is absorbed by Sunday.
+
+**Ship target stays Sunday 08-30.** Monday is reserve for a slice that blew
+up, not four extra hours of scope. A deadline you've already softened stops
+working as a deadline.
 
 ---
 
@@ -86,10 +94,16 @@ Written down so it can't be relitigated at 1am.
 One line per day: what got done, and the first thing to do next. This is the
 breadcrumb — it's what makes a cold start survivable.
 
+Days are marked by me saying "New Day!", not by the calendar — sessions run
+late and roll past midnight.
+
 - **Mon 08-24** — audited DECISIONS (4 can't-defends → resolved, cut the speaker-data one).
   Broke and predicted main.tsx + App.tsx. Next: slice 1, transcript JSON shape.
 - **Tue 08-25** — slice 1 done. `ingest.py` fetches + merges captions into 405
   sentence-sized chunks (raw caption lines were 3–6 words, unsearchable).
-  NASA Artemis II transcript committed, human captions, 62 min. Wrote
-  `formatTime` from scratch, 5/5 on its cases, moved to `src/formatTime.ts`
-  with its first type annotations. Next: slice 2, render the list.
+  NASA Artemis II transcript committed — human captions, 62 min, public domain.
+  Next: slice 2, render the list.
+- **Wed 08-26** — slice 2 done. Wrote `formatTime` from scratch, 5/5 on its
+  cases, now `src/formatTime.ts` with its first type annotations. 405 lines
+  rendering with a timestamp column. Next: slice 3, video embed +
+  click-to-jump.
