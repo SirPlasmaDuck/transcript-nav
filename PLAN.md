@@ -4,6 +4,9 @@ Working schedule for Transcript Nav. Ship target: **Sunday 2026-08-30.**
 
 Companion to `DECISIONS.md` — that file is *why*, this file is *when*.
 
+**Live: https://transcript-nav.vercel.app/** — Vercel builds on every push to
+main.
+
 **Reality check:** this gets built on weeknight evenings after a full workday.
 Roughly two usable hours a night, on a tank someone else already drained.
 Every slice below is sized for that, not for a free Saturday. Scope was cut to
@@ -46,11 +49,12 @@ Safety net: `git status` clean before starting, `git checkout .` undoes it all.
 | 2 | Transcript renders on screen | done | props, `.map()`, `key` |
 | 3 | Video embeds + click a line to jump | done | `useRef` |
 | 4 | Search filters the transcript | done | `useState`, controlled inputs |
-| — | **Consolidation — no new features** | **Fri** | — |
-| 5 | Highlight matches + result count | Sat | derived state |
-| 6 | Timeline markers (stretch) | Sat | — |
-| 7 | Mobile, empty states, README, gif | Sat/Sun | — |
-| 8 | Buffer, deploy check | Sun | — |
+| 5 | Highlight matches + result count | done | derived state |
+| 6 | Timeline markers (stretch) | cuttable | — |
+| — | **Consolidation — no new features** | **Sun** | — |
+| 7a | Mobile layout + empty state | done | — |
+| 7b | README + demo gif | **next** | — |
+| 8 | Deployed to Vercel | done | — |
 | — | *Reserve — only if something broke* | Mon | — |
 
 **Slices 3 and 4 are the product, and both are done.** Everything remaining is
@@ -124,3 +128,10 @@ late and roll past midnight.
   405 for free, since every string contains "". **The product is complete:**
   video, transcript, click-to-jump, search. Next: Friday consolidation — no new
   features.
+- **Thu 08-27 (pt 2)** — slice 5 done (result count, empty state, highlighted
+  matches via index-walking rather than regex, so a `(` in the search box can't
+  crash it). First real `npm run build` of the week: clean, no type errors.
+  **Deployed to Vercel** — the deploy `DECISIONS.md` claimed at slice 0 had
+  never actually happened; that entry was false and the audit missed it.
+  Mobile layout fixed (16:9 video, 44px tap targets, dvh height, 16px input to
+  stop iOS zooming). Verified on a real phone. Next: README.
