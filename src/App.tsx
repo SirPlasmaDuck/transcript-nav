@@ -1,9 +1,11 @@
 import transcript from "./data/transcript.json";
 import { formatTime } from "./formatTime.ts";
-import { useRef} from "react";
+import { useRef, useState } from "react";
+
 
 export default function App() {
     const playerRef = useRef<HTMLIFrameElement>(null);
+    const [query, setQuery] = useState("");
 
     function jumpTo(seconds: number) {
         playerRef.current?.contentWindow?.postMessage(
@@ -35,8 +37,19 @@ export default function App() {
         </section>
 
         <section className="pane pane--transcript">
+            <input
+                className="search"
+                type="search"
+                placeholder={"Search the transcript..."}
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                />
             <ol className="transcript">
-                {transcript.segments.map((segment) => (
+                {transcript.segments
+                    .filter((segment) =>
+                    segment.text.toLowerCase().includes(query.toLowerCase())
+                    )
+                    .map((segment) => (
                     <li className="line" key={segment.start}>
                         <button className="line__button" onClick={() => jumpTo(segment.start)}>
                             <span className="line__time">{formatTime(segment.start)}</span>
@@ -49,7 +62,7 @@ export default function App() {
       </main>
 
       <footer className="footer">
-        <span className="status">slice 0 — deployed, empty, on purpose</span>
+        <span className="status"></span>
       </footer>
     </div>
   );

@@ -44,22 +44,29 @@ Safety net: `git status` clean before starting, `git checkout .` undoes it all.
 | 0 | Shell UI, deployed empty | done | what a component is |
 | 1 | Transcript data in the repo | done | — |
 | 2 | Transcript renders on screen | done | props, `.map()`, `key` |
-| 3 | Video embeds + click a line to jump | **Wed/Thu** | `useRef` |
-| 4 | Search filters the transcript | Thu | `useState`, controlled inputs |
-| 5 | Highlight matches + result count | Fri | derived state |
-| 6 | Timeline markers (stretch) | Fri/Sat | — |
-| 7 | Mobile, empty states, README, gif | Sat | — |
+| 3 | Video embeds + click a line to jump | done | `useRef` |
+| 4 | Search filters the transcript | done | `useState`, controlled inputs |
+| — | **Consolidation — no new features** | **Fri** | — |
+| 5 | Highlight matches + result count | Sat | derived state |
+| 6 | Timeline markers (stretch) | Sat | — |
+| 7 | Mobile, empty states, README, gif | Sat/Sun | — |
 | 8 | Buffer, deploy check | Sun | — |
 | — | *Reserve — only if something broke* | Mon | — |
 
-**Slices 3 and 4 are the product.** Everything else is support. If the week
-goes badly, those two are what must exist by Sunday.
+**Slices 3 and 4 are the product, and both are done.** Everything remaining is
+polish and can be traded away.
+
+**Friday is consolidation, and it is not a detour.** The standard says nothing
+ships that I can't explain, and right now that standard is being violated
+across the whole app. A working demo I can't discuss in an interview is worth
+less than a smaller one I can. Friday: the two react.dev ref pages, a line-by-
+line walk through `App.tsx`, and the `DECISIONS.md` cleanup.
 
 Sunday is buffer, not work. Something breaks on Friday. Something always
 breaks on Friday.
 
-Running one day behind the original slotting as of Wed. Slices 3 and 4 still
-land by Friday, which is what matters; the slip is absorbed by Sunday.
+Back on the original slotting as of Wed night — slices 2 and 3 both landed
+that evening. Sunday buffer is intact, Monday reserve untouched.
 
 **Ship target stays Sunday 08-30.** Monday is reserve for a slice that blew
 up, not four extra hours of scope. A deadline you've already softened stops
@@ -107,3 +114,13 @@ late and roll past midnight.
   cases, now `src/formatTime.ts` with its first type annotations. 405 lines
   rendering with a timestamp column. Next: slice 3, video embed +
   click-to-jump.
+- **Wed 08-26 (pt 2)** — slice 3 done. YouTube iframe embedded; clicking a
+  transcript line seeks the player via `postMessage` (skipped the official
+  IFrame API — async script load + global ready callback fight React's
+  lifecycle). `useRef` to reach the iframe. Lines are real `<button>`s, so
+  keyboard-navigable. Pushed. Next: slice 4, search.
+- **Thu 08-27** — slice 4 done. Search box (`useState` + controlled input),
+  `.filter()` on the segments with both sides lowercased. Empty query shows all
+  405 for free, since every string contains "". **The product is complete:**
+  video, transcript, click-to-jump, search. Next: Friday consolidation — no new
+  features.
