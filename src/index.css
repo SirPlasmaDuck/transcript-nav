@@ -29,7 +29,8 @@ body {
 }
 
 .app {
-  height: 100%;
+  height: 100%;   /* fallback for anything that doesn't know dvh */
+  height: 100dvh; /* survives the mobile URL bar sliding in and out */
   display: flex;
   flex-direction: column;
 }
@@ -250,4 +251,46 @@ mark {
   color: var(--text);
   border-radius: 2px;
   padding: 0 0.1em;
+}
+
+/* ---- mobile ---------------------------------------------------------------
+   The 820px breakpoint further up already stacks the two panes. These rules
+   fix what breaks once they are stacked. */
+
+@media (max-width: 820px) {
+  /* The video row is sized `auto`, i.e. by its content -- and an <iframe> with
+     no height set falls back to the browser default of 150px. Pinning the
+     ratio gives the video a real size instead of a squat letterbox. */
+  .pane--video {
+    aspect-ratio: 16 / 9;
+  }
+
+  /* Vertical space is scarce on a phone; the desktop header spends too much
+     of it on a title and a tagline. */
+  .header {
+    padding: 0.85rem 1rem 0.7rem;
+  }
+
+  .header h1 {
+    font-size: 1rem;
+  }
+
+  /* ~33px rows are fine for a mouse and hostile to a thumb. 44px is the
+     accessibility floor for touch targets, and hitting one of these IS the
+     entire app. */
+  .line__button {
+    padding: 0.65rem 1rem;
+  }
+
+  .line__time {
+    min-width: 3rem;
+  }
+
+  /* iOS Safari zooms the whole page in when you focus an input whose font is
+     smaller than 16px. This is the single most common "why does my site jump
+     on iPhone" bug, and the fix is just: don't go under 16px. */
+  .search {
+    font-size: 16px;
+    padding: 0.6rem 0.7rem;
+  }
 }
