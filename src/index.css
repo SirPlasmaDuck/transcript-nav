@@ -221,3 +221,33 @@ body {
   outline-offset: -1px;
   border-color: transparent;
 }
+
+/* ---- result count, empty state, match highlight -------------------------- */
+
+.results {
+  flex: none;
+  padding: 0 1rem 0.4rem;
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+/* <mark> has a yellow browser default that fights a dark theme. */
+mark {
+  background: rgba(122, 162, 247, 0.28);
+  color: var(--text);
+  border-radius: 2px;
+  padding: 0 0.1em;
+}
