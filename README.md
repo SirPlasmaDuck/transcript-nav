@@ -84,8 +84,3 @@ full verbatim transcript of copyrighted material in a public repo invites a
 takedown, and a takedown would land while someone is clicking the link.
 Copyrighted transcripts stay on the local machine for testing.
 
-## Decisions
-
-Every real choice and why it was made: [`DECISIONS.md`](./DECISIONS.md)
-
-Schedule, scope cuts, and a daily log: [`PLAN.md`](./PLAN.md)
