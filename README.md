@@ -3,11 +3,8 @@
 **→ [transcript-nav.vercel.app](https://transcript-nav.vercel.app/)**
 
 Find a moment in an hour-long recording without dragging the scrubber around
-like an idiot. The transcript *is* the navigation: search for a phrase, click
+like a fool. The transcript *is* the navigation: search for a phrase, click
 the line, the video jumps there.
-
-> **TODO:** 15-second gif goes here — search, then click, then the video jumps.
-> Above everything. Most people won't scroll past it.
 
 ---
 
